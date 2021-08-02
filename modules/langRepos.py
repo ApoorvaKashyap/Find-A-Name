@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 
-def pypi(projectName):
+def pypi(projectName) -> int:
     base = "https://pypi.org/pypi/"
     endpoint = "/json/"
     url = base + projectName + endpoint
@@ -14,7 +14,7 @@ def pypi(projectName):
         return 1
 
 
-def npm(projectName):
+def npm(projectName) -> int:
     base = "https://registry.npmjs.org/-/v1/search?text="
     options = "&size=2"
     url = base + projectName + options
@@ -26,7 +26,7 @@ def npm(projectName):
         return 0
 
 
-def rubyGems(projectName):
+def rubyGems(projectName) -> int:
     base = "https://rubygems.org/api/v1/search.json?query="
     url = base + projectName
     rawResponse = requests.get(url)
@@ -37,7 +37,7 @@ def rubyGems(projectName):
         return 1
 
 
-def cppReference(projectName):
+def cppReference(projectName) -> int:
     projectName = projectName.lower()
     base = "https://en.cppreference.com/w/cpp/links/libs"
     rawResponse = requests.get(base)
