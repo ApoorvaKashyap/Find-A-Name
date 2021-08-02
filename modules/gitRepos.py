@@ -1,5 +1,4 @@
 import requests
-import gitlab
 
 
 def githubRepos(projectName) -> dict:
@@ -11,11 +10,6 @@ def githubRepos(projectName) -> dict:
 
 
 def gitlabRepos(projectName):
-    gl = gitlab.Gitlab("https://gitlab.com/")
-    gl.search("")
-
-
-def bitbucketRepos(projectName):
     pass
 
 
