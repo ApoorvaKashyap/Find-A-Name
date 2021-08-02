@@ -1,25 +1,88 @@
-from flask import Flask, request
-from modules.gitrepos import githubRepos
+from flask import Flask, request, redirect
+from modules.gitRepos import githubRepos
+from modules.langRepos import pypi, npm, rubyGems, cppReference
+from modules.osrepos import debianRepos, aurRepos, launchpadRepos
 
 app = Flask(__name__)
 
 
+@app.route("/")
+def home():
+    return redirect("/ospnc-v2/api/v1/", code=302)
+
+
+@app.errorhandler(404)
+def notFound(e):
+    try:
+        with open("./html/404.html") as content:
+            return content.read()
+    except Exception as error:
+        return str(error)
+
+
 @app.route("/ospnc-v2/api/v1/", methods=["GET"])
 def hello():
-    return """
-    <h1> Welcome to OSPNC v2 </h1>
-    <h4> Developed by <a href="https://github.com/ApoorvaKashyap">Apoorva Kashyap</a></h4>
-    <hr>
-    These are the current active repository lists that OSPNC checks in for available project names.
-    <ol>
-    <li>Github (<a href="https://github.com">https://github.com</a>)</li>
-    <li>In progress...</li>
-    </ol>
-    """
+    try:
+        with open("./html/content.html") as content:
+            return content.read()
+    except Exception as e:
+        return str(e)
 
 
+# Code Hosting Websites
 @app.route("/ospnc-v2/api/v1/github", methods=["GET"])
-def gitAvail():
+def githubAvail():
     if "name" in request.args:
         response = githubRepos(str(request.args["name"]))
-        return response
+        return str(response)
+
+
+# Language Libraries
+@app.route("/ospnc-v2/api/v1/pypi", methods=["GET"])
+def pypiAvail():
+    if "name" in request.args:
+        response = pypi(str(request.args["name"]))
+        return str(response)
+
+
+@app.route("/ospnc-v2/api/v1/npm", methods=["GET"])
+def npmAvail():
+    if "name" in request.args:
+        response = npm(str(request.args["name"]))
+        return str(response)
+
+
+@app.route("/ospnc-v2/api/v1/rubygems", methods=["GET"])
+def rubygemsAvail():
+    if "name" in request.args:
+        response = rubyGems(str(request.args["name"]))
+        return str(response)
+
+
+@app.route("/ospnc-v2/api/v1/cpp", methods=["GET"])
+def cppAvail():
+    if "name" in request.args:
+        response = cppReference(str(request.args["name"]))
+        return str(response)
+
+
+# OS Repos
+@app.route("/ospnc-v2/api/v1/debian", methods=["GET"])
+def debianAvail():
+    if "name" in request.args:
+        response = debianRepos(str(request.args["name"]))
+        return str(response)
+
+
+@app.route("/ospnc-v2/api/v1/aur", methods=["GET"])
+def aurAvail():
+    if "name" in request.args:
+        response = aurRepos(str(request.args["name"]))
+        return str(response)
+
+
+@app.route("/ospnc-v2/api/v1/launchpad", methods=["GET"])
+def launchpadAvail():
+    if "name" in request.args:
+        response = launchpadRepos(str(request.args["name"]))
+        return str(response)

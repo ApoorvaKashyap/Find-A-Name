@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Not Found</title>
+        <script language="JavaScript" type="text/javascript">
+            // countdown timer. took 6 because page takes approx 1 sec to load
+            var seconds = 6;
+
+            // variable for index.html url
+            var url="/";
+            
+            // redirect to new url after counter  down.
+            function redirect(){
+                if (seconds <= 0){
+                    window.location = url;
+                } else {
+                    seconds--;
+                    document.getElementById("pageInfo").innerHTML=`<h2>Page Not Found - 404</h2><br/>Redirecting to Home Page after "+seconds+" seconds. <br/>If you are not automatically redirected then click <a href='/'>here</a>.`
+                    setTimeout("redirect()", 1000)
+                }
+            }
+        </script>
+    </head>
+    <body onload="redirect()">
+        <p id="pageInfo"></p>
+    </body>
+</html>
