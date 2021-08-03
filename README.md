@@ -36,3 +36,8 @@ This is the api on which the **Open Source Project Name Checker v2** works upon.
 ## License
 Licensed under the *GNU General Public License v3.0*.
 Read the [LICENSE](https://github.com/ApoorvaKashyap/ospnc-v2-api/blob/main/LICENSE) file for more details.
+
+---
+
+## Credits
+<a target="_blank" href="https://icons8.com/icon/102232/search-pain">Search Pain</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>.

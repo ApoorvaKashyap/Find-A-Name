@@ -87,3 +87,18 @@ def launchpadAvail():
     if "name" in request.args:
         response = launchpadRepos(str(request.args["name"]))
         return str(response)
+
+
+# Give back a consolidated result
+@app.route("/ospnc-v2/api/v1", methods=["GET"])
+def allResults():
+    response = {}
+    if "name" in request.args:
+        response["github"] = str(githubRepos(str(request.args["name"])))
+        response["pypi"] = str(pypi(str(request.args["name"])))
+        response["npm"] = str(npm(str(request.args["name"])))
+        response["rubyGems"] = str(rubyGems(str(request.args["name"])))
+        response["cpp"] = str(cppReference(str(request.args["name"])))
+        response["aur"] = str(aurRepos(str(request.args["name"])))
+        response["debian"] = str(debianRepos(str(request.args["name"])))
+        response["launchpad"] = str(launchpadRepos(str(request.args["name"])))
