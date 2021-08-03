@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, redirect, request
 
 from modules.gitRepos import githubRepos
@@ -90,7 +92,7 @@ def launchpadAvail():
 
 
 # Give back a consolidated result
-@app.route("/ospnc-v2/api/v1", methods=["GET"])
+@app.route("/ospnc-v2/api/v1/all", methods=["GET"])
 def allResults():
     response = {}
     if "name" in request.args:
@@ -102,3 +104,5 @@ def allResults():
         response["aur"] = str(aurRepos(str(request.args["name"])))
         response["debian"] = str(debianRepos(str(request.args["name"])))
         response["launchpad"] = str(launchpadRepos(str(request.args["name"])))
+    jsonResponse = json.dumps(response, indent=4)
+    return jsonResponse
