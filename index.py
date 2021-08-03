@@ -1,7 +1,8 @@
-from flask import Flask, request, redirect
+from flask import Flask, redirect, request
+
 from modules.gitRepos import githubRepos
-from modules.langRepos import pypi, npm, rubyGems, cppReference
-from modules.osrepos import debianRepos, aurRepos, launchpadRepos
+from modules.langRepos import cppReference, npm, pypi, rubyGems
+from modules.osrepos import aurRepos, debianRepos, launchpadRepos
 
 app = Flask(__name__)
 
