@@ -1,17 +1,19 @@
 import json
 
 from flask import Flask, redirect, request
+from flask_cors import CORS
 
 from modules.gitRepos import githubRepos
 from modules.langRepos import cppReference, npm, pypi, rubyGems
 from modules.osrepos import aurRepos, debianRepos, launchpadRepos
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/")
 def home():
-    return redirect("/ospnc-v2/api/v1/", code=302)
+    return redirect("/find-a-name/api/v1/", code=302)
 
 
 @app.errorhandler(404)
@@ -23,7 +25,7 @@ def notFound(e):
         return str(error)
 
 
-@app.route("/ospnc-v2/api/v1/", methods=["GET"])
+@app.route("/find-a-name/api/v1/", methods=["GET"])
 def hello():
     try:
         with open("./html/content.html") as content:
@@ -33,7 +35,7 @@ def hello():
 
 
 # Code Hosting Websites
-@app.route("/ospnc-v2/api/v1/github", methods=["GET"])
+@app.route("/find-a-name/api/v1/github", methods=["GET"])
 def githubAvail():
     if "name" in request.args:
         response = githubRepos(str(request.args["name"]))
@@ -51,7 +53,7 @@ def githubAvail():
 
 
 # Language Libraries
-@app.route("/ospnc-v2/api/v1/pypi", methods=["GET"])
+@app.route("/find-a-name/api/v1/pypi", methods=["GET"])
 def pypiAvail():
     if "name" in request.args:
         response = pypi(str(request.args["name"]))
@@ -68,7 +70,7 @@ def pypiAvail():
         """.format("PyPi Endpoint")
 
 
-@app.route("/ospnc-v2/api/v1/npm", methods=["GET"])
+@app.route("/find-a-name/api/v1/npm", methods=["GET"])
 def npmAvail():
     if "name" in request.args:
         response = npm(str(request.args["name"]))
@@ -85,7 +87,7 @@ def npmAvail():
         """.format("NPM Endpoint")
 
 
-@app.route("/ospnc-v2/api/v1/rubygems", methods=["GET"])
+@app.route("/find-a-name/api/v1/rubygems", methods=["GET"])
 def rubygemsAvail():
     if "name" in request.args:
         response = rubyGems(str(request.args["name"]))
@@ -102,7 +104,7 @@ def rubygemsAvail():
         """.format("RubyGems Endpoint")
 
 
-@app.route("/ospnc-v2/api/v1/cpp", methods=["GET"])
+@app.route("/find-a-name/api/v1/cpp", methods=["GET"])
 def cppAvail():
     if "name" in request.args:
         response = cppReference(str(request.args["name"]))
@@ -120,7 +122,7 @@ def cppAvail():
 
 
 # OS Repos
-@app.route("/ospnc-v2/api/v1/debian", methods=["GET"])
+@app.route("/find-a-name/api/v1/debian", methods=["GET"])
 def debianAvail():
     if "name" in request.args:
         response = debianRepos(str(request.args["name"]))
@@ -137,7 +139,7 @@ def debianAvail():
         """.format("Debian Endpoint")
 
 
-@app.route("/ospnc-v2/api/v1/aur", methods=["GET"])
+@app.route("/find-a-name/api/v1/aur", methods=["GET"])
 def aurAvail():
     if "name" in request.args:
         response = aurRepos(str(request.args["name"]))
@@ -154,7 +156,7 @@ def aurAvail():
         """.format("AUR Endpoint")
 
 
-@app.route("/ospnc-v2/api/v1/launchpad", methods=["GET"])
+@app.route("/find-a-name/api/v1/launchpad", methods=["GET"])
 def launchpadAvail():
     if "name" in request.args:
         response = launchpadRepos(str(request.args["name"]))
@@ -172,7 +174,7 @@ def launchpadAvail():
 
 
 # Give back a consolidated result
-@app.route("/ospnc-v2/api/v1/all", methods=["GET"])
+@app.route("/find-a-name/api/v1/all", methods=["GET"])
 def allResults():
     response = {}
     jsonResponse = ''
