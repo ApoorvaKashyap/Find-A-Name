@@ -1,6 +1,8 @@
 import json
+from turtle import title
+from unicodedata import name
 
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, render_template
 from flask_cors import CORS
 from app.modules.gitRepos import githubRepos
 from app.modules.langRepos import cppReference, npm, pypi, rubyGems
@@ -12,29 +14,23 @@ CORS(app)
 
 @app.route("/")
 def home():
-    try:
-        with open("app/static/html/index.html") as content:
-            return content.read()
-    except Exception as e:
-        return str(e)
+    # try:
+    #     with open("app/static/html/index.html") as content:
+    #         return content.read()
+    # except Exception as e:
+    #     return str(e)
+    title = "Find-A-Name"
+    return render_template('index.html', title=title)
 
 
 @app.errorhandler(404)
 def notFound(e):
-    try:
-        with open("app/static/html/404.html") as content:
-            return content.read()
-    except Exception as error:
-        return str(error)
+    render_template('404.html', title="Page Not Found")
 
 
 @app.route("/find-a-name/api/v1/", methods=["GET"])
 def hello():
-    try:
-        with open("app/static/html/content.html") as content:
-            return content.read()
-    except Exception as e:
-        return str(e)
+    render_template('content.html', title="Endpoint Base")
 
 
 # Code Hosting Websites
