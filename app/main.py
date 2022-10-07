@@ -1,6 +1,4 @@
 import json
-from turtle import title
-from unicodedata import name
 
 from flask import Flask, redirect, request, render_template
 from flask_cors import CORS
@@ -14,23 +12,18 @@ CORS(app)
 
 @app.route("/")
 def home():
-    # try:
-    #     with open("app/static/html/index.html") as content:
-    #         return content.read()
-    # except Exception as e:
-    #     return str(e)
     title = "Find-A-Name"
     return render_template('index.html', title=title)
 
 
 @app.errorhandler(404)
 def notFound(e):
-    render_template('404.html', title="Page Not Found")
+    return render_template('404.html', title="Page Not Found")
 
 
 @app.route("/find-a-name/api/v1/", methods=["GET"])
 def hello():
-    render_template('content.html', title="Endpoint Base")
+    return render_template('content.html', title="Endpoint Base")
 
 
 # Code Hosting Websites
