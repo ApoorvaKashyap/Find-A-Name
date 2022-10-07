@@ -2,7 +2,6 @@ import json
 
 from flask import Flask, redirect, request
 from flask_cors import CORS
-
 from modules.gitRepos import githubRepos
 from modules.langRepos import cppReference, npm, pypi, rubyGems
 from modules.osrepos import aurRepos, debianRepos, launchpadRepos
@@ -49,7 +48,9 @@ def githubAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("Github Endpoint")
+        """.format(
+            "Github Endpoint"
+        )
 
 
 # Language Libraries
@@ -67,7 +68,9 @@ def pypiAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("PyPi Endpoint")
+        """.format(
+            "PyPi Endpoint"
+        )
 
 
 @app.route("/find-a-name/api/v1/npm", methods=["GET"])
@@ -84,7 +87,9 @@ def npmAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("NPM Endpoint")
+        """.format(
+            "NPM Endpoint"
+        )
 
 
 @app.route("/find-a-name/api/v1/rubygems", methods=["GET"])
@@ -101,7 +106,9 @@ def rubygemsAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("RubyGems Endpoint")
+        """.format(
+            "RubyGems Endpoint"
+        )
 
 
 @app.route("/find-a-name/api/v1/cpp", methods=["GET"])
@@ -118,7 +125,9 @@ def cppAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("CPP Endpoint")
+        """.format(
+            "CPP Endpoint"
+        )
 
 
 # OS Repos
@@ -136,7 +145,9 @@ def debianAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("Debian Endpoint")
+        """.format(
+            "Debian Endpoint"
+        )
 
 
 @app.route("/find-a-name/api/v1/aur", methods=["GET"])
@@ -153,7 +164,9 @@ def aurAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("AUR Endpoint")
+        """.format(
+            "AUR Endpoint"
+        )
 
 
 @app.route("/find-a-name/api/v1/launchpad", methods=["GET"])
@@ -170,14 +183,16 @@ def launchpadAvail():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("LaunchPad Endpoint")
+        """.format(
+            "LaunchPad Endpoint"
+        )
 
 
 # Give back a consolidated result
 @app.route("/find-a-name/api/v1/all", methods=["GET"])
 def allResults():
     response = {}
-    jsonResponse = ''
+    jsonResponse = ""
     if "name" in request.args:
         response["github"] = str(githubRepos(str(request.args["name"])))
         response["pypi"] = str(pypi(str(request.args["name"])))
@@ -197,5 +212,7 @@ def allResults():
             <body>
                 Please pass the name argument.
             </body>
-        """.format("Consolidated Endpoint")
+        """.format(
+            "Consolidated Endpoint"
+        )
     return jsonResponse
