@@ -18,7 +18,7 @@ def home():
 @app.errorhandler(404)
 def notFound(e):
     try:
-        with open("./html/404.html") as content:
+        with open("app/html/404.html") as content:
             return content.read()
     except Exception as error:
         return str(error)
@@ -27,7 +27,7 @@ def notFound(e):
 @app.route("/find-a-name/api/v1/", methods=["GET"])
 def hello():
     try:
-        with open("./html/content.html") as content:
+        with open("app/html/content.html") as content:
             return content.read()
     except Exception as e:
         return str(e)
