@@ -12,13 +12,17 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return redirect("/find-a-name/api/v1/", code=302)
+    try:
+        with open("app/static/html/index.html") as content:
+            return content.read()
+    except Exception as e:
+        return str(e)
 
 
 @app.errorhandler(404)
 def notFound(e):
     try:
-        with open("app/html/404.html") as content:
+        with open("app/static/html/404.html") as content:
             return content.read()
     except Exception as error:
         return str(error)
@@ -27,7 +31,7 @@ def notFound(e):
 @app.route("/find-a-name/api/v1/", methods=["GET"])
 def hello():
     try:
-        with open("app/html/content.html") as content:
+        with open("app/static/html/content.html") as content:
             return content.read()
     except Exception as e:
         return str(e)

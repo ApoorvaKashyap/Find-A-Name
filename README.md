@@ -1,14 +1,12 @@
 # Open Source Project Name Checker v2 API
-*Inspired by [Login's OSPNC](https://github.com/LogIN-/ospnc).*
 
 <!-- Shields here. -->
-<img src="https://img.shields.io/github/stars/ApoorvaKashyap/ospnc-v2-api?style=social">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://img.shields.io/github/forks/ApoorvaKashyap/ospnc-v2-api?style=social">
+
 
 ---
 
 ## Introduction
-This is the api on which the **Open Source Project Name Checker v2** works upon. 
+Check if future name of your open-source project is already in use!
 
 ---
 
@@ -35,7 +33,7 @@ This is the api on which the **Open Source Project Name Checker v2** works upon.
 
 ## License
 Licensed under the *GNU General Public License v3.0*.
-Read the [LICENSE](https://github.com/ApoorvaKashyap/ospnc-v2-api/blob/main/LICENSE) file for more details.
+Read the [LICENSE](https://github.com/ApoorvaKashyap/find-a-name-api/blob/main/LICENSE) file for more details.
 
 ---
 
