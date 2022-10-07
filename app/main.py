@@ -2,9 +2,9 @@ import json
 
 from flask import Flask, redirect, request
 from flask_cors import CORS
-from modules.gitRepos import githubRepos
-from modules.langRepos import cppReference, npm, pypi, rubyGems
-from modules.osrepos import aurRepos, debianRepos, launchpadRepos
+from app.modules.gitRepos import githubRepos
+from app.modules.langRepos import cppReference, npm, pypi, rubyGems
+from app.modules.osrepos import aurRepos, debianRepos, launchpadRepos
 
 app = Flask(__name__)
 CORS(app)
