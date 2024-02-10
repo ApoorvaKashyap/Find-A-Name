@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "template-repository"
+name = "find-a-name-api"
 version = "0.1.0"
-description = ""
+description = "Check if future name of your open-source project is already in use!"
 authors = ["ApoorvaKashyap <apoorvakashyap54@gmail.com>"]
 
 [tool.poetry.dependencies]

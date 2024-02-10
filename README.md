@@ -8,8 +8,6 @@
 ## Introduction
 Check if future name of your open-source project is already in use!
 
----
-
 ## List of Checked Sources
 
 ### Code Hosting Websites
