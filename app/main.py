@@ -1,211 +1,41 @@
-import json
-
-from flask import Flask, redirect, request, render_template
-from flask_cors import CORS
-from app.modules.gitRepos import githubRepos
-from app.modules.langRepos import cppReference, npm, pypi, rubyGems
-from app.modules.osrepos import aurRepos, debianRepos, launchpadRepos
-
-app = Flask(__name__)
-CORS(app)
-
-
-@app.route("/")
-def home():
-    title = "Find-A-Name"
-    return render_template('index.html', title=title)
+from typing import Optional
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+import uvicorn
+from app.errors import not_found, server_error
+from app.models import FinalResponse
+from app.operations import search
+import httpx
 
 
-@app.errorhandler(404)
-def notFound(e):
-    return render_template('404.html', title="Page Not Found")
+exceptions = {
+    404: not_found,
+    500: server_error
+}
+
+app = FastAPI(exception_handlers=exceptions)
+templates = Jinja2Templates(directory="templates")
 
 
-@app.route("/find-a-name/api/v1/", methods=["GET"])
-def hello():
-    return render_template('content.html', title="Endpoint Base")
+limits = httpx.Limits(max_keepalive_connections=5, max_connections=10)
+timeout = httpx.Timeout(timeout=5.0, read=15.0)
+client = httpx.AsyncClient(limits=limits, timeout=timeout)
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    print("Shutting down...")
+    await client.aclose()
 
 
-# Code Hosting Websites
-@app.route("/find-a-name/api/v1/github", methods=["GET"])
-def githubAvail():
-    if "name" in request.args:
-        response = githubRepos(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "Github Endpoint"
-        )
+@app.get("/", response_class=HTMLResponse)
+async def home(request:Request, projectName: Optional[str] = None):
+    if not projectName:
+        return templates.TemplateResponse("index.html",context={"request":request})
+    response = await search(projectName)
+    print(response.model_dump_json)
+    return templates.TemplateResponse("index.html", context = {"request":request, "response":response})
 
 
-# Language Libraries
-@app.route("/find-a-name/api/v1/pypi", methods=["GET"])
-def pypiAvail():
-    if "name" in request.args:
-        response = pypi(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "PyPi Endpoint"
-        )
-
-
-@app.route("/find-a-name/api/v1/npm", methods=["GET"])
-def npmAvail():
-    if "name" in request.args:
-        response = npm(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "NPM Endpoint"
-        )
-
-
-@app.route("/find-a-name/api/v1/rubygems", methods=["GET"])
-def rubygemsAvail():
-    if "name" in request.args:
-        response = rubyGems(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "RubyGems Endpoint"
-        )
-
-
-@app.route("/find-a-name/api/v1/cpp", methods=["GET"])
-def cppAvail():
-    if "name" in request.args:
-        response = cppReference(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "CPP Endpoint"
-        )
-
-
-# OS Repos
-@app.route("/find-a-name/api/v1/debian", methods=["GET"])
-def debianAvail():
-    if "name" in request.args:
-        response = debianRepos(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "Debian Endpoint"
-        )
-
-
-@app.route("/find-a-name/api/v1/aur", methods=["GET"])
-def aurAvail():
-    if "name" in request.args:
-        response = aurRepos(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "AUR Endpoint"
-        )
-
-
-@app.route("/find-a-name/api/v1/launchpad", methods=["GET"])
-def launchpadAvail():
-    if "name" in request.args:
-        response = launchpadRepos(str(request.args["name"]))
-        return str(response)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "LaunchPad Endpoint"
-        )
-
-
-# Give back a consolidated result
-@app.route("/find-a-name/api/v1/all", methods=["GET"])
-def allResults():
-    response = {}
-    jsonResponse = ""
-    if "name" in request.args:
-        response["github"] = str(githubRepos(str(request.args["name"])))
-        response["pypi"] = str(pypi(str(request.args["name"])))
-        response["npm"] = str(npm(str(request.args["name"])))
-        response["rubyGems"] = str(rubyGems(str(request.args["name"])))
-        response["cpp"] = str(cppReference(str(request.args["name"])))
-        response["aur"] = str(aurRepos(str(request.args["name"])))
-        response["debian"] = str(debianRepos(str(request.args["name"])))
-        response["launchpad"] = str(launchpadRepos(str(request.args["name"])))
-        jsonResponse = json.dumps(response, indent=4)
-    else:
-        return """
-            <!DOCTYPE html>
-            <head>
-                <title>{}</title>
-            </head>
-            <body>
-                Please pass the name argument.
-            </body>
-        """.format(
-            "Consolidated Endpoint"
-        )
-    return jsonResponse
+if __name__ == "__main__":
+    uvicorn.run(app)

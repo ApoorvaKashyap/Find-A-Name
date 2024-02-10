@@ -1,20 +1,15 @@
 import requests
 
-
-def githubRepos(projectName) -> dict:
+def githubRepos(projectName) -> bool:
     base_url = "https://api.github.com/search/repositories?"
     query = "q={}&sort=stars&order=desc".format(projectName)
     url = base_url + query
     rawResponse = requests.get(url)
     response = rawResponse.json()
     if response["total_count"] == 0:
-        return 1
+        return True
     else:
-        return 0
-
-
-def gitlabRepos(projectName):
-    pass
+        return False
 
 
 if __name__ == "__main__":

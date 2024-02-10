@@ -2,42 +2,42 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 
-def pypi(projectName) -> int:
+def pypi(projectName) -> bool:
     base = "https://pypi.org/pypi/"
     endpoint = "/json/"
     url = base + projectName + endpoint
     rawResponse = requests.get(url)
     if "404" not in str(rawResponse):
         # response = rawResponse.json()
-        return 0
+        return False
     else:
-        return 1
+        return True
 
 
-def npm(projectName) -> int:
+def npm(projectName) -> bool:
     base = "https://registry.npmjs.org/-/v1/search?text="
     options = "&size=2"
     url = base + projectName + options
     rawResponse = requests.get(url)
     response = rawResponse.json()
     if response["total"] == 0:
-        return 1
+        return True
     else:
-        return 0
+        return False
 
 
-def rubyGems(projectName) -> int:
+def rubyGems(projectName) -> bool:
     base = "https://rubygems.org/api/v1/search.json?query="
     url = base + projectName
     rawResponse = requests.get(url)
     response = rawResponse.json()
     if response:
-        return 0
+        return False
     else:
-        return 1
+        return True
 
 
-def cppReference(projectName) -> int:
+def cppReference(projectName) -> bool:
     projectName = projectName.lower()
     base = "https://en.cppreference.com/w/cpp/links/libs"
     rawResponse = requests.get(base)
@@ -46,9 +46,9 @@ def cppReference(projectName) -> int:
     for lib in soup.find_all("a", {"class": "external text"}):
         libs.append(lib.text.strip().lower())
     if projectName in libs:
-        return 0
+        return False
     else:
-        return 1
+        return True
 
 
 if __name__ == "__main__":
