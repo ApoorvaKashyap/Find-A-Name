@@ -1,6 +1,8 @@
-# Open Source Project Name Checker v2 API
+# Find A Name
 
 <!-- Shields here. -->
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/w/ApoorvaKashyap/Find-A-Name">
+<img alt="GitHub License" src="https://img.shields.io/github/license/ApoorvaKashyap/Find-A-Name">
 
 
 ---
