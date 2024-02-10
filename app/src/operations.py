@@ -18,7 +18,6 @@ async def search(projectName: str) -> FinalResponse:
         response.launchpadRepos = launchpadRepos(projectName)
     except Exception as e:
         raise HTTPException(
-            status_code = 500,
-            detail = "Failed to fetch results from the server."
+            status_code=500, detail="Failed to fetch results from the server."
         )
     return response

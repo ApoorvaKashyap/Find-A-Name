@@ -5,7 +5,7 @@ description = "Check if future name of your open-source project is already in us
 authors = ["ApoorvaKashyap <apoorvakashyap54@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 requests = "^2.31.0"
 beautifulsoup4 = "^4.12.3"
 fastapi = "^0.109.2"
