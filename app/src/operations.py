@@ -1,8 +1,9 @@
+from app.src.models import FinalResponse
+from app.src.modules.gitRepos import githubRepos
+from app.src.modules.langRepos import cppReference, npm, pypi, rubyGems
+from app.src.modules.osRepos import aurRepos, debianRepos, launchpadRepos
 from fastapi import HTTPException
-from app.modules.gitRepos import githubRepos
-from app.modules.langRepos import cppReference, pypi, rubyGems, npm
-from app.modules.osRepos import debianRepos,aurRepos, launchpadRepos
-from app.models import FinalResponse
+
 
 async def search(projectName: str) -> FinalResponse:
     response = FinalResponse(projectName=projectName)

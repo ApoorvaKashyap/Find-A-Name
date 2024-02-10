@@ -1,13 +1,13 @@
 from typing import Optional
+
+import httpx
+import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-import uvicorn
-from app.errors import not_found, server_error
-from app.models import FinalResponse
-from app.operations import search
-import httpx
 
+from app.src.errors import not_found, server_error
+from app.src.operations import search
 
 exceptions = {
     404: not_found,
@@ -15,7 +15,7 @@ exceptions = {
 }
 
 app = FastAPI(exception_handlers=exceptions)
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 limits = httpx.Limits(max_keepalive_connections=5, max_connections=10)
